@@ -1,11 +1,12 @@
 package azqueue
 
 import (
-	"github.com/Azure/azure-pipeline-go/pipeline"
 	"context"
-	"net/http"
 	"net"
+	"net/http"
 	"time"
+
+	"github.com/Azure/azure-pipeline-go/pipeline"
 	//"net/url"
 	//"log"
 )
@@ -48,7 +49,7 @@ func NewPipeline(c Credential, o PipelineOptions) pipeline.Pipeline {
 		pipeline.MethodFactoryMarker(), // indicates at what stage in the pipeline the method factory is invoked
 		NewRequestLogPolicyFactory(o.RequestLog))
 
-	return pipeline.NewPipeline(f, pipeline.Options{HTTPSender: newDefaultHTTPClientFactory(), Log: o.Log})
+	return pipeline.NewPipeline(f, pipeline.Options{HTTPSender: nil, Log: o.Log})
 }
 
 func newDefaultHTTPClient() *http.Client {
@@ -80,7 +81,6 @@ func newDefaultHTTPClient() *http.Client {
 		},
 	}
 }
-
 
 func newDefaultHTTPClientFactory() pipeline.Factory {
 	return pipeline.FactoryFunc(func(next pipeline.Policy, po *pipeline.PolicyOptions) pipeline.PolicyFunc {
